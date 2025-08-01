@@ -167,7 +167,7 @@ def test_tload_reentrancy(
     tx = Transaction(
         sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
-        gas_price=10,
+        gas_price=1000000000,
         data=Hash(do_reenter),
         gas_limit=5000000,
         value=0,

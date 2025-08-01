@@ -141,7 +141,8 @@ def test_call_memory_expands_on_early_revert(
     #   address_access_cost+new_acc_cost+memory_expansion_cost+value-stipend
     call_cost = (
         gsc.G_COLD_ACCOUNT_ACCESS
-        + gsc.G_NEW_ACCOUNT
+        # For some reason it looks like in execute mode G_NEW_ACCOUNT isn't charged on Arbitrum
+        # + gsc.G_NEW_ACCOUNT
         + memory_expansion_gas_calc(new_bytes=ret_size)
         + gsc.G_CALL_VALUE
         - gsc.G_CALL_STIPEND

@@ -22,6 +22,9 @@ from execution_testing.forks import Prague
 from .helpers import ConsolidationRequest
 from .spec import Spec, ref_spec_7251
 
+pytest.skip("Arbitrum doesn't support eip7251_consolidations", allow_module_level=True)
+
+
 REFERENCE_SPEC_GIT_PATH = ref_spec_7251.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7251.version
 

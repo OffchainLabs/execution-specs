@@ -22,6 +22,9 @@ from execution_testing.forks import Prague
 from .helpers import DataTestType
 from .spec import ref_spec_7623
 
+pytest.skip("Arbitrum doesn't support eip7623_increase_calldata_cost", allow_module_level=True)
+
+
 REFERENCE_SPEC_GIT_PATH = ref_spec_7623.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7623.version
 

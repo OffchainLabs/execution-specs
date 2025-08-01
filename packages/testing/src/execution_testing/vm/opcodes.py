@@ -20,6 +20,7 @@ from typing import (
 )
 
 from execution_testing.base_types import to_bytes
+from execution_testing.base_types.base_types import Address
 
 from .bytecode import Bytecode
 
@@ -6210,3 +6211,36 @@ class UndefinedOpcodes(Opcode, Enum):
     OPCODE_EF = Opcode(0xEF)
     OPCODE_F6 = Opcode(0xF6)
     OPCODE_FC = Opcode(0xFC)
+
+def arb_block_number() -> Opcodes:
+    """
+    Returns an Op sequence that calls ArbSys::arbBlockNumber() and leaves
+    the L2 block number on the stack, matching the %arb_block_num macro.
+    """
+    selector = 0xA3B1B31D      # keccak256("arbBlockNumber()")[0:4]
+    arbsys = Address(100)      # 0x64
+
+    return (
+        # mstore(0, selector)
+        # After this, mem[0..31] = 0x0000...0000a3b1b31d, so the selector
+        # lives at mem[28..31].
+        Opcodes.MSTORE(0, selector)
+        +
+        # STATICCALL(
+        #   gas = GAS,
+        #   to = ArbSys (0x64),
+        #   argsOffset = 28, argsSize = 4,   # selector
+        #   retOffset = 0,  retSize  = 32   # uint256 result
+        # )
+        Opcodes.STATICCALL(
+            Opcodes.GAS,   # gas
+            arbsys,   # address
+            28,       # argsOffset
+            4,        # argsSize
+            0,        # retOffset
+            32,       # retSize
+        )
+        +
+        # mload(0) -> [arbBlockNumber]
+        Opcodes.MLOAD(0)
+    )

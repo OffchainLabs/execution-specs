@@ -12,6 +12,11 @@ from execution_testing import (
 )
 
 
+@pytest.mark.execute(
+    pytest.mark.skip(
+        reason="This test doesn't work in execute mode as BLOCKHASH only stores the last 256 hashes"
+    )
+)
 @pytest.mark.valid_from("Frontier")
 def test_genesis_hash_available(
     blockchain_test: BlockchainTestFiller, pre: Alloc

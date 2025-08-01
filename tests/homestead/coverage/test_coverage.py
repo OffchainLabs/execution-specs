@@ -80,7 +80,7 @@ def test_coverage(
             value=0,
             protected=False,
             access_list=[],
-            max_fee_per_gas=10,
+            max_fee_per_gas=1000000000,
             max_priority_fee_per_gas=5,
         )
     else:

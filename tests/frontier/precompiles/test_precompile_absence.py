@@ -1,6 +1,7 @@
 """Test Calling Precompile Range (close to zero)."""
 
 import pytest
+
 from execution_testing import (
     Account,
     Address,
@@ -17,6 +18,11 @@ UPPER_BOUND = 0x101
 RETURNDATASIZE_OFFSET = 0x10000000000000000  # Must be greater than UPPER_BOUND
 
 
+@pytest.mark.execute(
+    pytest.mark.skip(
+        reason="Known failing https://github.com/ethereum/execution-spec-tests/issues/1700 in `execute remote` mode"
+    )
+)
 @pytest.mark.parametrize(
     "calldata_size",
     [

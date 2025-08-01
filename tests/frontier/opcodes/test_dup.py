@@ -72,7 +72,7 @@ def test_dup(
         nonce=0,
         to=account,
         gas_limit=500000,
-        gas_price=10,
+        gas_price=1000000000,
         protected=False if fork in [Frontier, Homestead] else True,
         data="",
         sender=sender,

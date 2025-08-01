@@ -477,6 +477,9 @@ class ProgramChainid(ScenarioTestProgram):
         # TODO: use `chain_config` fixture instead.
         chain_id = ChainConfigDefaults.chain_id
 
+        # we might still need to hardcode this
+        # return ProgramResult(result=412346, from_fork=Istanbul)
+
         return ProgramResult(result=chain_id, from_fork=Istanbul)
 
 

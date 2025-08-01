@@ -27,6 +27,9 @@ from execution_testing import (
 
 from .spec import Spec, SpecHelpers, ref_spec_4844
 
+pytest.skip("Arbitrum doesn't support eip4844_blobs", allow_module_level=True)
+
+
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
 

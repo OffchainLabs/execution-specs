@@ -24,7 +24,8 @@ class Spec:
     """
 
     # Gas limit constants
-    tx_gas_limit_cap = 2**24  # 16,777,216
+    # arbitrum uses 32 million, unlike mainnet which uses 2^24 = 16,777,216
+    tx_gas_limit_cap = 32 * 1000000
 
     # Blob transaction constants
     blob_commitment_version_kzg = 1

@@ -50,6 +50,11 @@ from ..eip7251_consolidations.helpers import (
 from ..eip7251_consolidations.spec import Spec as Spec_EIP7251
 from .spec import ref_spec_7685
 
+pytest.skip(
+    "Arbitrum doesn't support eip7685_general_purpose_el_requests", allow_module_level=True
+)
+
+
 REFERENCE_SPEC_GIT_PATH: str = ref_spec_7685.git_path
 REFERENCE_SPEC_VERSION: str = ref_spec_7685.version
 

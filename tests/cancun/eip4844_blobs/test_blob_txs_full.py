@@ -24,6 +24,8 @@ from .spec import Spec, ref_spec_4844
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
 
+pytest.skip("Arbitrum doesn't support eip4844_blobs", allow_module_level=True)
+
 
 @pytest.fixture
 def destination_account() -> Address:

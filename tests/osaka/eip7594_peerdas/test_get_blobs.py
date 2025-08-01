@@ -31,6 +31,8 @@ REFERENCE_SPEC_VERSION = ref_spec_7594.version
 
 logger = get_logger(__name__)
 
+pytest.skip("Arbitrum doesn't support eip7594_peerdas", allow_module_level=True)
+
 
 @pytest.fixture
 def destination_account(pre: Alloc) -> Address:

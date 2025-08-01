@@ -19,12 +19,12 @@ from execution_testing import (
 )
 from execution_testing import Macros as Om
 
-from .helpers import (
-    WithdrawalRequest,
-    WithdrawalRequestTransaction,
-)
+from .helpers import WithdrawalRequest, WithdrawalRequestTransaction
 from .spec import Spec as Spec_EIP7002
 from .spec import ref_spec_7002
+
+pytest.skip("Arbitrum doesn't support eip7002_el_triggerable_withdrawals", allow_module_level=True)
+
 
 REFERENCE_SPEC_GIT_PATH: str = ref_spec_7002.git_path
 REFERENCE_SPEC_VERSION: str = ref_spec_7002.version

@@ -38,6 +38,7 @@ from execution_testing import (
     TransactionException,
     TransactionReceipt,
     add_kzg_version,
+    arb_block_number,
     call_return_code,
     compute_create_address,
 )
@@ -46,9 +47,6 @@ from execution_testing.base_types import HexNumber
 from execution_testing.test_types.eof.v1 import Container, Section
 
 from ...cancun.eip4844_blobs.spec import Spec as Spec4844
-from ..eip6110_deposits.helpers import DepositRequest
-from ..eip7002_el_triggerable_withdrawals.helpers import WithdrawalRequest
-from ..eip7251_consolidations.helpers import ConsolidationRequest
 from .helpers import AddressType
 from .spec import Spec, ref_spec_7702
 
@@ -2502,6 +2500,7 @@ def test_valid_tx_invalid_chain_id(
     )
 
 
+@pytest.mark.execute(pytest.mark.skip(reason="nonce parameter is not supported for execute"))
 @pytest.mark.parametrize(
     "account_nonce,authorization_nonce",
     [
@@ -2897,57 +2896,12 @@ def test_set_code_to_system_contract(
     # Setup the initial storage of the account to mimic the system contract if
     # required
     match system_contract:
-        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
-            # Deposit contract needs specific storage values, so we set them on
-            # the account
-            auth_signer = pre.fund_eoa(
-                auth_account_start_balance,
-                storage=deposit_contract_initial_storage(),
-            )
-        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
-            auth_signer = pre.fund_eoa(
-                auth_account_start_balance, storage=Storage({1: 1})
-            )
         case _:
             # Pre-fund without storage
             auth_signer = pre.fund_eoa(auth_account_start_balance)
 
     # Fabricate the payload for the system contract
     match system_contract:
-        case Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02):  # EIP-4788
-            caller_payload = Hash(1)
-            caller_code_storage[call_return_data_size_slot] = 32
-        case Address(0x00000000219AB540356CBB839CBE05303D7705FA):  # EIP-6110
-            # Fabricate a valid deposit request to the set-code account
-            deposit_request = DepositRequest(
-                pubkey=0x01,
-                withdrawal_credentials=0x02,
-                amount=1_000_000_000,
-                signature=0x03,
-                index=0x0,
-            )
-            caller_payload = deposit_request.calldata
-            call_value = deposit_request.value
-        case Address(0x00000961EF480EB55E80D19AD83579A64C007002):  # EIP-7002
-            # Fabricate a valid withdrawal request to the set-code account
-            withdrawal_request = WithdrawalRequest(
-                source_address=0x01,
-                validator_pubkey=0x02,
-                amount=0x03,
-                fee=0x01,
-            )
-            caller_payload = withdrawal_request.calldata
-            call_value = withdrawal_request.value
-        case Address(0x0000BBDDC7CE488642FB579F8B00F3A590007251):  # EIP-7251
-            # Fabricate a valid consolidation request to the set-code account
-            consolidation_request = ConsolidationRequest(
-                source_address=0x01,
-                source_pubkey=0x02,
-                target_pubkey=0x03,
-                fee=0x01,
-            )
-            caller_payload = consolidation_request.calldata
-            call_value = consolidation_request.value
         case Address(0x0000F90827F1C53A10CB7A02335B175320002935):  # EIP-2935
             # This payload is used to identify the number of blocks to be
             # subtracted from the latest block number
@@ -2963,7 +2917,7 @@ def test_set_code_to_system_contract(
         case Address(0x0000F90827F1C53A10CB7A02335B175320002935):  # EIP-2935
             # Do a trick here to get the block number of the penultimate block
             # to ensure it is saved in the history contract
-            check_block_number = Op.SUB(Op.NUMBER, Op.CALLDATALOAD(0))
+            check_block_number = Op.SUB(arb_block_number(), Op.CALLDATALOAD(0))
             call_system_contract_code = Op.MSTORE(
                 0, check_block_number
             ) + Op.SSTORE(
@@ -3136,7 +3090,7 @@ def test_eoa_tx_after_set_code(
                     gas_limit=500_000,
                     to=auth_signer,
                     value=0,
-                    max_fee_per_gas=1_000,
+                    max_fee_per_gas=1000000000,
                     max_priority_fee_per_gas=1_000,
                 )
             )
@@ -3148,7 +3102,7 @@ def test_eoa_tx_after_set_code(
                     gas_limit=500_000,
                     to=auth_signer,
                     value=0,
-                    max_fee_per_gas=1_000,
+                    max_fee_per_gas=1000000000,
                     max_priority_fee_per_gas=1_000,
                     max_fee_per_blob_gas=fork.min_base_fee_per_blob_gas() * 10,
                     blob_versioned_hashes=add_kzg_version(
@@ -3288,6 +3242,9 @@ def test_contract_create(
     )
 
 
+@pytest.mark.execute(
+    pytest.mark.skip(reason="Execute mode doesn't support deploying empty contracts")
+)
 @pytest.mark.exception_test
 def test_empty_authorization_list(
     state_test: StateTestFiller,
@@ -3709,6 +3666,9 @@ def test_creating_delegation_designation_contract(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.execute(
+    pytest.mark.skip(reason="Arbitrum doesn't allow for transactions over 95000 bytes")
+)
 @pytest.mark.parametrize(
     "signer_balance",
     [

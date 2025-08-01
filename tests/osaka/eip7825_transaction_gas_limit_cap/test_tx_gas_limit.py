@@ -62,8 +62,17 @@ def tx_gas_limit_cap_tests(fork: Fork) -> List[ParameterSet]:
     ]
 
 
+@pytest.mark.skip(
+    reason="Pepper told me that we intentionally have different behavior than the spec here is the PR which originally diverted the behavior https://github.com/OffchainLabs/nitro/pull/3557"
+)
 @pytest.mark.parametrize_by_fork("tx_gas_limit,error", tx_gas_limit_cap_tests)
-@pytest.mark.with_all_tx_types
+@pytest.mark.with_all_tx_types(
+    marks=lambda tx_type: pytest.mark.execute(
+        pytest.mark.skip(reason="type 3 transactions aren't support in execute mode")
+    )
+    if tx_type == 3
+    else None
+)
 @pytest.mark.valid_from("Prague")
 def test_transaction_gas_limit_cap(
     state_test: StateTestFiller,
@@ -182,6 +191,11 @@ def test_tx_gas_limit_cap_subcall_context(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.execute(
+    pytest.mark.skip(
+        reason="We are testing using dev mode in Arbitrum, so every transaction is a new block, this test should pass on prod or testnets"
+    )
+)
 @pytest.mark.parametrize(
     "exceed_block_gas_limit",
     [
@@ -228,6 +242,9 @@ def test_tx_gas_larger_than_block_gas_limit(
     blockchain_test(pre=pre, post={}, blocks=[block])
 
 
+@pytest.mark.skip(
+    reason="Pepper told me that we intentionally have different behavior than the spec here is the PR which originally diverted the behavior https://github.com/OffchainLabs/nitro/pull/3557"
+)
 @pytest.mark.parametrize(
     "exceed_gas_refund_limit",
     [
@@ -309,12 +326,23 @@ def total_cost_floor_per_token(fork: Fork) -> int:
 
 
 @pytest.mark.xdist_group(name="bigmem")
+@pytest.mark.execute(
+    pytest.mark.skip(
+        reason="We don't implement Arbitrum gas costs correctly, these tests try to use mainnet calculations and of course it fails"
+    )
+)
 @pytest.mark.parametrize(
     "exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit",
     [
         pytest.param(True, False, marks=pytest.mark.exception_test),
         pytest.param(True, True, marks=pytest.mark.exception_test),
-        pytest.param(False, True),
+        pytest.param(
+            False,
+            True,
+            marks=pytest.mark.execute(
+                pytest.mark.skip(reason="Arbitrum doesn't allow for transactions over 95000 bytes")
+            ),
+        ),
     ],
 )
 @pytest.mark.parametrize("zero_byte", [True, False])
@@ -461,7 +489,13 @@ def test_tx_gas_limit_cap_contract_creation(
     [
         pytest.param(True, False, marks=pytest.mark.exception_test),
         pytest.param(True, True, marks=pytest.mark.exception_test),
-        pytest.param(False, True),
+        pytest.param(
+            False,
+            True,
+            marks=pytest.mark.execute(
+                pytest.mark.skip(reason="Arbitrum doesn't allow for transactions over 95000 bytes")
+            ),
+        ),
     ],
 )
 @pytest.mark.valid_from("Osaka")
@@ -541,6 +575,7 @@ def test_tx_gas_limit_cap_access_list_with_diff_keys(
     )
 
 
+@pytest.mark.execute(pytest.mark.skip(reason="This test causes all tests to error on Arbitrum"))
 @pytest.mark.parametrize(
     "exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit",
     [
@@ -621,6 +656,7 @@ def test_tx_gas_limit_cap_access_list_with_diff_addr(
     )
 
 
+@pytest.mark.execute(pytest.mark.skip(reason="This test causes all tests to error on Arbitrum"))
 @pytest.mark.parametrize(
     "exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit",
     [

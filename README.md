@@ -1,3 +1,64 @@
+# Arbitrum Execution Spec Tests
+
+This is a fork of https://github.com/ethereum/execution-spec-tests
+
+The Goal of forking Ethereum's Execution Spec tests was to verify that Arbitrum is working as expected well reusing existing tests and infrastructure.
+
+## Removed EIP's
+### Shanghai
+- EIP-3651: Warm COINBASE
+- EIP-4895: Beacon chain push withdrawals as operations
+
+### Not supported in ArbOS 20, EIP's from Cancun
+- EIP-4788: Beacon block root in the EVM
+- EIP-7516: BLOBBASEFEE instruction  
+##### Arbitrum can post/retrieve EIP-4844 from L1, but doesn't support the mechanics on Arbitrum. Only the precompile tests appear to pass
+- EIP-4844: Shard Blob Transactions
+
+### Not supported in ArbOS 40, EIP's from Prague
+- EIP-6110: Supply validator deposits on chain
+- EIP-7002: Execution layer triggerable withdrawals
+- EIP-7251: Increase the MAX_EFFECTIVE_BALANCE
+- EIP-7623: Increase calldata cost
+- EIP-7685: General purpose execution layer requests
+
+### Not supported in ArbOS 50, EIP's from Osaka
+- EIP-7594: PeerDAS - Peer Data Availability Sampling
+- EIP-7918: Blob base fee bounded by execution cost
+- EIP-7892: Blob Parameter Only Hardforks
+- EIP-7917: Deterministic proposer lookahead
+- EIP-7934: RLP Execution Block Size Limit
+- EIP-7907: Meter Contract Code Size And Increase Limit
+- EIP-7935: Set default gas limit to XX0M
+
+I believe these EIP's weren't implemented/enabled in Arbitrum Nitro, so I removed them from the tests.
+
+## Instructions on how to run
+
+1. Install and run https://github.com/OffchainLabs/nitro-devnode in terminal 1:
+
+```bash
+git clone https://github.com/OffchainLabs/nitro-devnode.git
+cd nitro-devnode
+./run-dev-node.sh
+```
+
+2. Install the execution spec tests dependencies in terminal 2:
+
+Follow the [Prerequisites](#prerequisites) and [Installation](#installation) sections below to install the required dependencies.
+
+3. Run the execution spec tests in terminal 2 against Arbitrum Nitro:
+
+```bash
+uv run execute remote --fork=Osaka --rpc-endpoint=http://127.0.0.1:8547 --rpc-seed-key 0xb6b15c8cb491557369f3c7d2c287b053eb229daa9c22138887752191c9520659 --rpc-chain-id 412346 ./tests/ --verbose
+```
+
+## Expected Output
+
+```
+============================================================================= 4057 passed, 140 skipped in 5736.42s (1:35:36) =============================================================================
+```
+
 # Ethereum Execution Client Specifications
 
 [![GitPOAP Badge](https://public-api.gitpoap.io/v1/repo/ethereum/execution-specs/badge)](https://www.gitpoap.io/gh/ethereum/execution-specs)

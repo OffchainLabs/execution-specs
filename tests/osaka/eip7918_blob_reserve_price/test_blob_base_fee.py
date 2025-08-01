@@ -30,6 +30,8 @@ REFERENCE_SPEC_VERSION = ref_spec_7918.version
 
 pytestmark = pytest.mark.valid_from("Osaka")
 
+pytest.skip("Arbitrum doesn't support eip7918_blob_reserve_price", allow_module_level=True)
+
 
 @pytest.fixture
 def sender(pre: Alloc) -> Address:

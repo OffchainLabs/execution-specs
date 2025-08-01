@@ -19,7 +19,7 @@ from .spec import FP, FP2, Scalar, Spec, ref_spec_2537
 REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
 REFERENCE_SPEC_VERSION = ref_spec_2537.version
 
-pytestmark = pytest.mark.valid_at_transition_to("Prague")
+pytestmark = pytest.mark.valid_at_transition_to("Osaka")
 
 
 @pytest.mark.parametrize(

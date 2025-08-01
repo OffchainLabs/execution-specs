@@ -22,6 +22,9 @@ from execution_testing.forks import Prague
 from .helpers import WithdrawalRequest
 from .spec import Spec, ref_spec_7002
 
+pytest.skip("Arbitrum doesn't support eip7002_el_triggerable_withdrawals", allow_module_level=True)
+
+
 REFERENCE_SPEC_GIT_PATH = ref_spec_7002.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7002.version
 

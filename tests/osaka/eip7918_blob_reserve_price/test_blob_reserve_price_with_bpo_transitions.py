@@ -28,6 +28,8 @@ REFERENCE_SPEC_VERSION = ref_spec_7918.version
 
 MIN_BLOB_GASPRICE = 1
 
+pytest.skip("Arbitrum doesn't support eip7918_blob_reserve_price", allow_module_level=True)
+
 
 @pytest.fixture
 def sender(pre: Alloc) -> EOA:

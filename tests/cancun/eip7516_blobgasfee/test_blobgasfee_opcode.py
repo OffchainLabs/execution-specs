@@ -21,6 +21,9 @@ from execution_testing import (
     Transaction,
 )
 
+pytest.skip("Arbitrum doesn't support eip7516_blobgasfee", allow_module_level=True)
+
+
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7516.md"
 REFERENCE_SPEC_VERSION = "dcd2f4ede58a6ed908acd3cc2c198e9f605cbf3b"
 

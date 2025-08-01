@@ -8,6 +8,7 @@ https://github.com/ethereum/tests/blob/v15.0/src/GeneralStateTestsFiller/stEIP15
 from typing import List
 
 import pytest
+
 from execution_testing import (
     AccessList,
     Address,
@@ -20,7 +21,6 @@ from execution_testing import (
     Transaction,
     TransactionException,
 )
-
 from .spec import ref_spec_2930
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_2930.git_path

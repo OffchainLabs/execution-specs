@@ -28,6 +28,8 @@ REFERENCE_SPEC_VERSION = ref_spec_4844.version
 
 pytestmark = pytest.mark.valid_from("Cancun")
 
+pytest.skip("Arbitrum doesn't support eip4844_blobs", allow_module_level=True)
+
 
 class BlobhashContext(Enum):
     """

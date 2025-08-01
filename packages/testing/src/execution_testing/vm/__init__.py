@@ -10,6 +10,7 @@ from .opcodes import (
     OpcodeCallArg,
     Opcodes,
     UndefinedOpcodes,
+    arb_block_number,
 )
 
 # Ergonomic alias for the commonly used Opcodes enum
@@ -26,5 +27,6 @@ __all__ = (
     "OpcodeCallArg",
     "Opcodes",
     "UndefinedOpcodes",
+    "arb_block_number",
     "call_return_code",
 )

@@ -167,16 +167,35 @@ def scenarios(
         ProgramReturnDataCopy(),
         ProgramExtCodehash(),
         ProgramBlockhash(),
-        ProgramCoinbase(),
+        pytest.param(
+            ProgramCoinbase(),
+            marks=[pytest.mark.skip(reason="Coinbase works differently on Arbitrum")],
+        ),
         ProgramTimestamp(),
-        ProgramNumber(),
+        pytest.param(
+            ProgramNumber(),
+            marks=[
+                pytest.mark.execute(
+                    pytest.mark.skip(
+                        reason="ProgramNumber() test doesn't work using `execute remote` for Arbitrum"
+                    )
+                )
+            ],
+        ),
         ProgramDifficultyRandao(),
-        ProgramGasLimit(),
+        pytest.param(
+            ProgramGasLimit(), marks=[pytest.mark.skip(reason="GasLimit is different on Arbitrum")]
+        ),
         ProgramChainid(),
         ProgramSelfbalance(),
         ProgramBasefee(),
         ProgramBlobhash(),
-        ProgramBlobBaseFee(),
+        pytest.param(
+            ProgramBlobBaseFee(),
+            marks=[
+                pytest.mark.skip(reason="BlobBaseFee doesn't seem available on Arbitrum dev node")
+            ],
+        ),
         ProgramTload(),
         ProgramMcopy(),
         ProgramPush0(),
@@ -229,7 +248,7 @@ def test_scenarios(
         if scenario.category == "double_call_combinations":
             tx_max_gas *= 2
 
-        tx_gasprice: int = 10
+        tx_gasprice: int = 1000000000
         exec_env = ExecutionEnvironment(
             fork=fork,
             origin=tx_origin,

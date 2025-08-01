@@ -64,7 +64,7 @@ def test_basic_tload_transaction_begin(
     tx = Transaction(
         sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
-        gas_price=10,
+        gas_price=1000000000,
         data=b"",
         gas_limit=5000000,
         value=0,
@@ -122,7 +122,7 @@ def test_basic_tload_works(
     tx = Transaction(
         sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
-        gas_price=10,
+        gas_price=1000000000,
         data=b"",
         gas_limit=5000000,
         value=0,
@@ -176,7 +176,7 @@ def test_basic_tload_other_after_tstore(
     tx = Transaction(
         sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
-        gas_price=10,
+        gas_price=1000000000,
         data=b"",
         gas_limit=5000000,
         value=0,
@@ -211,7 +211,7 @@ def test_basic_tload_gasprice(
     28-1         MSTORE         2     20748   4958252    2:[4ba82f,0,]
                  MSTORE [0] = 4958255
     29-1          PUSH1         3     20754   4958246
-    30-1          TLOAD       100     20757   4958243    1:[10,]
+    30-1          TLOAD       100     20757   4958246    1:[10,]
     31-1            GAS         2     20857   4958143    1:[2,]
     32-1          PUSH1         3     20859   4958141    2:[2,4ba7bd,]
     33-1         MSTORE         6     20862   4958138    3:[2,4ba7bd,20,]
@@ -271,7 +271,7 @@ def test_basic_tload_gasprice(
     tx = Transaction(
         sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
-        gas_price=10,
+        gas_price=1000000000,
         data=b"",
         gas_limit=5000000,
         value=0,
@@ -325,7 +325,7 @@ def test_basic_tload_after_store(
     tx = Transaction(
         sender=pre.fund_eoa(7_000_000_000_000_000_000),
         to=address_to,
-        gas_price=10,
+        gas_price=1000000000,
         data=b"",
         gas_limit=5000000,
         value=0,

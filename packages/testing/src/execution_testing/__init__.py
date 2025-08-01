@@ -109,6 +109,7 @@ from .vm import (
     OpcodeCallArg,
     Opcodes,
     UndefinedOpcodes,
+    arb_block_number,
     call_return_code,
 )
 
@@ -201,6 +202,7 @@ __all__ = (
     "Withdrawal",
     "WithdrawalRequest",
     "add_kzg_version",
+    "arb_block_number"
     "call_return_code",
     "ceiling_division",
     "compute_create_address",

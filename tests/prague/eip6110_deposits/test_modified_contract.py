@@ -20,6 +20,9 @@ from execution_testing import Macros as Om
 from .helpers import DepositRequest, create_deposit_log_bytes
 from .spec import Spec, ref_spec_6110
 
+pytest.skip("Arbitrum doesn't support eip6110_deposits", allow_module_level=True)
+
+
 pytestmark = [
     pytest.mark.valid_from("Prague"),
     pytest.mark.execute(pytest.mark.skip(reason="modifies pre-alloc")),

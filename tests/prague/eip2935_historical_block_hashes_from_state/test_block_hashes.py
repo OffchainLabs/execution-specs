@@ -224,6 +224,11 @@ def test_block_hashes_history_at_transition(
     )
 
 
+@pytest.mark.execute(
+    pytest.mark.skip(
+        reason="This test isn't built for live networks aka `execute remote`, so these tests fail when I test against Arbitrum."
+    )
+)
 @pytest.mark.parametrize(
     "block_count,check_contract_first",
     [
@@ -256,8 +261,7 @@ def test_block_hashes_history(
     the oldest block hash is replaced by the new one.
     """
     blocks: List[Block] = []
-
-    sender = pre.fund_eoa(10_000_000_000)
+    sender = pre.fund_eoa(100_000_000_000_000_000)
     post: Dict[Address, Account] = {}
     current_block_number = 1
     fork_block_number = 0  # We fork at genesis
@@ -398,8 +402,26 @@ def test_block_hashes_call_opcodes(
 @pytest.mark.parametrize(
     "block_number,reverts",
     [
-        pytest.param(1, True, id="current_block"),
-        pytest.param(2, True, id="future_block"),
+        pytest.param(
+            1,
+            True,
+            id="current_block",
+            marks=pytest.mark.execute(
+                pytest.mark.skip(
+                    reason="This test isn't built for live networks aka `execute remote`, so these tests fail when I test against Arbitrum."
+                )
+            ),
+        ),
+        pytest.param(
+            2,
+            True,
+            id="future_block",
+            marks=pytest.mark.execute(
+                pytest.mark.skip(
+                    reason="This test isn't built for live networks aka `execute remote`, so these tests fail when I test against Arbitrum."
+                )
+            ),
+        ),
         pytest.param(2**64 - 1, True, id="2**64-1"),
         pytest.param(2**64, True, id="2**64"),
     ],

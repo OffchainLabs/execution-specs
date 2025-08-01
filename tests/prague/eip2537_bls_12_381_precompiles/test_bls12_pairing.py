@@ -6,6 +6,7 @@ Tests the BLS12_PAIRING precompile implementation from
 """
 
 import pytest
+
 from execution_testing import (
     EOA,
     Address,
@@ -16,7 +17,6 @@ from execution_testing import (
     StateTestFiller,
     Transaction,
 )
-
 from .conftest import (
     G1_POINTS_NOT_IN_SUBGROUP,
     G1_POINTS_NOT_ON_CURVE,
@@ -30,7 +30,7 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
 REFERENCE_SPEC_VERSION = ref_spec_2537.version
 
 pytestmark = [
-    pytest.mark.valid_from("Prague"),
+    pytest.mark.valid_from("Osaka"),
     pytest.mark.parametrize("precompile_address", [Spec.PAIRING], ids=[""]),
 ]
 
@@ -140,6 +140,9 @@ def test_valid(
     )
 
 
+@pytest.mark.execute(
+    pytest.mark.skip(reason="Arbitrum doesn't allow for transactions over 95000 bytes")
+)
 @pytest.mark.slow
 @pytest.mark.parametrize("precompile_gas", [None], ids=[""])
 @pytest.mark.parametrize("expected_output", [Spec.PAIRING_TRUE], ids=[""])
@@ -364,6 +367,9 @@ def test_invalid(
     )
 
 
+@pytest.mark.execute(
+    pytest.mark.skip(reason="Arbitrum doesn't allow for transactions over 95000 bytes")
+)
 @pytest.mark.slow
 @pytest.mark.parametrize("precompile_gas", [None], ids=[""])
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])

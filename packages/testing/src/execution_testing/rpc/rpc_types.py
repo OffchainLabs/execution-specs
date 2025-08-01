@@ -50,7 +50,6 @@ class JSONRPCError(Exception):
         """Return string representation of the JSONRPCError."""
         if self.data is not None:
             return f"JSONRPCError(code={self.code}, message={self.message}, data={self.data})"
-
         return f"JSONRPCError(code={self.code}, message={self.message})"
 
 

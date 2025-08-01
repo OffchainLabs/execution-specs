@@ -22,6 +22,9 @@ from execution_testing.forks import Shanghai
 
 from .spec import ref_spec_3651
 
+pytest.skip("Arbitrum doesn't support eip3651_warm_coinbase", allow_module_level=True)
+
+
 REFERENCE_SPEC_GIT_PATH = ref_spec_3651.git_path
 REFERENCE_SPEC_VERSION = ref_spec_3651.version
 

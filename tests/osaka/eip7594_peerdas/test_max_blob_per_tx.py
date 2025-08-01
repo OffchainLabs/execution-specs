@@ -27,6 +27,8 @@ REFERENCE_SPEC_VERSION = ref_spec_7594.version
 
 FORK_TIMESTAMP = 15_000
 
+pytest.skip("Arbitrum doesn't support eip7594_peerdas", allow_module_level=True)
+
 
 @pytest.fixture
 def env() -> Environment:
