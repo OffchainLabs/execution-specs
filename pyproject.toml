@@ -165,7 +165,7 @@ optimized = [
 
 [dependency-groups]
 test = [
-    "pytest>=8,<9",
+    "pytest>=8,<10",
     "pytest-cov>=4.1.0,<5",
     "pytest-xdist>=3.3.1,<4",
     "GitPython>=3.1.0,<3.2",
